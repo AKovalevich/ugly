@@ -4,8 +4,6 @@ use Ugly\IoC;
 
 /**
  * Ugly\IoCInterface
- *
- * Interface for Ugly\IoCInterface
  */
 class IoC implements \IteratorAggregate, \ArrayAccess, \Countable
 {
