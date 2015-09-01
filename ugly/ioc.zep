@@ -72,16 +72,16 @@ class IoC implements \IteratorAggregate, \ArrayAccess, \Countable
     }
 
     /**
-	 * Magic getter to obtain values from the IoC
-	 *
-	 *<code>
-	 * echo $man->ugly;
-	 *</code>
-	 *
-	 * @param string name
+     * Magic getter to obtain values from the IoC
+     *
+     *<code>
+     * echo $man->ugly;
+     *</code>
+     *
+     * @param string name
      * @param mixed default value
-	 * @return mixed
-	 */
+     * @return mixed
+     */
     public function __get(string! name, var default_value = null)
     {
         return this->get(name, default_value);
@@ -103,34 +103,34 @@ class IoC implements \IteratorAggregate, \ArrayAccess, \Countable
     }
 
     /**
-	 * Magic isset to check whether a service is defined in the IoC
-	 *
-	 *<code>
-	 * var_dump(isset($user['ugly']));
-	 *</code>
-	 */
+     * Magic isset to check whether a service is defined in the IoC
+     *
+     *<code>
+     * var_dump(isset($user['ugly']));
+     *</code>
+     */
     public function __isset(string! name)
     {
         return this->has(name);
     }
 
     /**
-	 * Magic unset to remove items using the array syntax
-	 *
-	 *<code>
-	 * unset($user['name']);
-	 *</code>
-	 */
+     * Magic unset to remove items using the array syntax
+     *
+     *<code>
+     * unset($user['name']);
+     *</code>
+     */
     public function __unset(string! name)
     {
         this->remove(name);
     }
 
-	/**
-	 * Returns the IoC iterator
-	 *
-	 * @return \ArrayIterator
-	 */
+    /**
+     * Returns the IoC iterator
+     *
+     * @return \ArrayIterator
+     */
     public final function getIterator() -> <ArrayIterator>
     {
     	return new \ArrayIterator(this->_data);
