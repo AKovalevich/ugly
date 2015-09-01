@@ -1,11 +1,12 @@
 namespace Ugly;
 
 use Ugly\IoC;
+use Ugly\IoCInterface;
 
 /**
  * Ugly\IoCInterface
  */
-class IoC implements \IteratorAggregate, \ArrayAccess, \Countable
+class IoC implements IoCInterface
 {
 
     /**
@@ -64,7 +65,7 @@ class IoC implements \IteratorAggregate, \ArrayAccess, \Countable
     /**
      * Prepare service name
      */
-    public function prepareName(string! name)
+    public function prepareName(string! name) -> string
     {
         return name->lower();
     }
