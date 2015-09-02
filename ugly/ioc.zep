@@ -17,10 +17,25 @@ class IoC implements IoCInterface
     /**
      * Get data value by key
      */
-    public function get(string! name, var default_value = null)
+    public function get(string! name, var parameters = null, var default_value = null)
     {
-        if (this->has(this->prepareName(name))) {
-            return this->_data[this->prepareName(name)];
+        var prepareName;
+        let prepareName = this->prepareName(name);
+
+        if (this->has(name)) {
+            if typeof this->_data[prepareName] == "string" {
+                if parameters {
+                    let this->_data[prepareName] = create_instance(this->_data[prepareName]);
+                } else {
+                    let this->_data[prepareName] = create_instance_params(this->_data[prepareName], parameters);
+                }
+
+                return this->_data[prepareName];
+            }
+
+            if typeof this->_data[prepareName] == "object" {
+                return this->_data[prepareName];
+            }
         }
 
         return default_value;
