@@ -4,7 +4,7 @@ use Ugly\IoC;
 
 class App
 {
-    public $container;
+    public container;
 
 	/**
 	 * Ugly\App constructor
