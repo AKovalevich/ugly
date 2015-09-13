@@ -19,22 +19,21 @@ class IoC implements IoCInterface
      */
     public function get(string! name, var parameters = null, var default_value = null)
     {
-        var prepareName;
-        let prepareName = this->prepareName(name);
+        let name = this->prepareName(name);
 
         if (this->has(name)) {
-            if typeof this->_data[prepareName] == "string" {
-                if parameters {
-                    let this->_data[prepareName] = create_instance(this->_data[prepareName]);
+            if typeof this->_data[name] == "string" {
+                if parameters === null {
+                    let this->_data[name] = create_instance(this->_data[name]);
                 } else {
-                    let this->_data[prepareName] = create_instance_params(this->_data[prepareName], parameters);
+                    let this->_data[name] = create_instance_params(this->_data[name], parameters);
                 }
 
-                return this->_data[prepareName];
+                return this->_data[name];
             }
 
-            if typeof this->_data[prepareName] == "object" {
-                return this->_data[prepareName];
+            if typeof this->_data[name] == "object" {
+                return this->_data[name];
             }
         }
 
@@ -74,15 +73,15 @@ class IoC implements IoCInterface
      */
     public function has(string! name) -> boolean
     {
-        return isset this->_data[this->prepareName(name)];
+        return isset this->_data[name];
     }
 
     /**
      * Prepare service name
      */
-    public function prepareName(string! name) -> string
+    static function prepareName(string! name) -> string
     {
-        return name->lower();
+        return name;
     }
 
     /**
@@ -96,9 +95,9 @@ class IoC implements IoCInterface
      * @param mixed default value
      * @return mixed
      */
-    public function __get(string! name, var default_value = null)
+    public function __get(string! name, var parameters = null, var default_value = null)
     {
-        return this->get(name, default_value);
+        return this->get(name, parameters, default_value);
     }
 
     /**
@@ -189,5 +188,10 @@ class IoC implements IoCInterface
     public function count() -> int
     {
         return count(this->_data);
+    }
+
+    public function getAll()
+    {
+        return this->_data;
     }
 }
