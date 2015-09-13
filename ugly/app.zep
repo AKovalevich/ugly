@@ -9,6 +9,8 @@ class App
      * @var \Ugly\IoC
      */
     public container;
+    protected router;
+    protected request;
 
     public function __construct()
     {
@@ -17,18 +19,20 @@ class App
 
         this->container->set("router", "Ugly\\Router");
         this->container->set("request", "Ugly\\Http\\Request");
+
+        let this->request = this->container->get("request");
+        let this->router = this->container->get("router");
     }
 
     public function go() {
         var matched, route, output;
         let output = "";
 
-        let matched = this->container->router->getMatchedRoutes(_GET["_url"], this->container->request->getMethod());
-
+        let matched = this->router->getMatchedRoutes(_GET["_url"], this->request->getMethod());
 
         if !empty matched {
             for route in matched {
-                let output = output . this->container->router->dispatch(route);
+                let output = output . this->router->dispatch(route);
             }
         } else {
             let output = this->notFound();
@@ -47,7 +51,7 @@ class App
      */
     public function get(string! pattern, var callback)
     {
-        this->container->router->setRoute(pattern, callback, this->container->request->methodGet());
+        this->router->setRoute(pattern, callback, this->request->methodGet());
     }
 
     /**
@@ -55,7 +59,7 @@ class App
      */
     public function post(string! pattern, string! callback)
     {
-        this->container->router->setRoute(pattern, callback, this->container->request->methodPost());
+        this->router->setRoute(pattern, callback, this->request->methodPost());
     }
 
     /**
@@ -63,7 +67,7 @@ class App
      */
     public function put(string! pattern, string! callback)
     {
-        this->container->router->setRoute(pattern, callback, this->container->request->methodPut());
+        this->router->setRoute(pattern, callback, this->request->methodPut());
     }
 
     /**
@@ -71,6 +75,6 @@ class App
      */
     public function delete(string! pattern, string! callback)
     {
-        this->container->router->setRoute(pattern, callback, this->container->request->methodDelete());
+        this->router->setRoute(pattern, callback, this->request->methodDelete());
     }
 }
